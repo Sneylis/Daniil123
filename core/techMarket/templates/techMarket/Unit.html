@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{%load static%}
+
+{%block title%}Каталог{%endblock%}
+
+{%block aside%}
+{%if group%}
+{%for g in group%}
+<div>
+    <ul class="catalog">
+        <li><a><h1>{{g.gr}}</h1></a></li>
+        {%for c in g.category_set.all%}
+        <ul>
+        <li><a href="{%url 'techMarket:showCategory' c.id %}"><h2>{{c.cat}}</h2></a></li>
+        </ul>
+        {%endfor%}
+
+    </ul>
+
+</div>
+{%endfor%}
+{%endif%}
+{%endblock%}
+
+
+{%block content%}
+
+<div>
+  <div><h1>{{unit.title}}</h1></div>
+  <div><img src="{{unit.photo.url}}"></div>
+    <a href="{%url 'techMarket:AddBucket' u.id%}">Добавить в корзину</a>
+  <div>
+    <h2>{{unit.price}}</h2>
+    <p>{{unit.about}}</p>
+     <p>
+    {{ character|join:"\n"}}
+      </p>
+  </div>
+</div>
+
+
+{%endblock%}

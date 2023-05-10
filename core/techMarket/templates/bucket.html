@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{%load static%}
+
+{%block title%}Корзина{%endblock%}
+
+{%block content%}
+{%for u in unit %}
+<div>
+    <div><img src="{{u.unit.photo.url}}"></div>
+    <p>{{u.unit.title}}</p>
+    <p>x{{u.l}}</p>
+    <a href="{%url 'techMarket:ShowUnit' u.unit.pk %}">смотреть в каталоге</a>
+    <a href="{%url 'techMarket:DelBucket' u.id %}">удалить</a>
+</div>
+{%endfor%}
+{%endblock%}
