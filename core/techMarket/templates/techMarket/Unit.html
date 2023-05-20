@@ -28,7 +28,7 @@
 <div>
   <div><h1>{{unit.title}}</h1></div>
   <div><img src="{{unit.photo.url}}"></div>
-    <a href="{%url 'techMarket:AddBucket' u.id%}">Добавить в корзину</a>
+    <a href="{%url 'techMarket:AddBucket' unit.id%}">Добавить в корзину</a>
   <div>
     <h2>{{unit.price}}</h2>
     <p>{{unit.about}}</p>

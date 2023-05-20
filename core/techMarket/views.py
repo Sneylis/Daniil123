@@ -66,7 +66,7 @@ def AddUnit(request):
             return redirect('techMarket:index')
     else:
         form = UnitForm()
-    return render(request, 'techMarket/addUnit.html', {'form': form})
+        return render(request, 'techMarket/addUnit.html', {'form': form})
 
 class updunit(UpdateView):
     model = Unit
