@@ -38,5 +38,30 @@
   </div>
 </div>
 
+<hr>
 
+<div class="likes">
+    <span>Количество оценок "Нравится": {{like}}</span>
+    <a href="{%url 'techMarket:AddLike' unit.id %}">Нравится!</a>
+</div>
+
+<div>
+{%for c in unit.comment_set.all%}
+    <hr>
+    <h1>{{c.user}}</h1>
+    <p> {{c.text}}</p>
+    <hr>
+        {%endfor%}
+
+</div>
+
+<div class="comments">
+
+ <span>Оставить комментарий: </span>
+      <form action="{% url 'techMarket:commen' unit.id  %}" method="POST">
+    {% csrf_token %}
+        <textarea name="comment" ></textarea>
+    <button type="submit">Оставить комментарий</button>
+    </form>
+</div>
 {%endblock%}

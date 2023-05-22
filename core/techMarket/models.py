@@ -1,3 +1,4 @@
+from PIL import Image
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -27,11 +28,33 @@ class Unit(models.Model):
     def __str__(self):
         return self.title
 
+    def save(self):
+        super().save()
+        img = Image.open(self.photo.path)
+
+        if img.height > 500 or img.width > 700:
+            output_size = (700, 400)
+            img.thumbnail(output_size)
+            img.save(self.photo.path)
+
 
 class Backet (models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     unit = models.ForeignKey(Unit,on_delete=models.CASCADE)
     l = models.IntegerField(default=0)
+
+class comment(models.Model):
+    unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
+    text = models.TextField(max_length=100000)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Like (models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    unit = models.ForeignKey(Unit,on_delete=models.CASCADE)
+    like = models.BooleanField()
+
+    def get_like(self):
+        self.like.count()
 
 
 

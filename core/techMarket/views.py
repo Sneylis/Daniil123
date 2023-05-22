@@ -1,13 +1,16 @@
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
-from .forms import RegisterUserForm, UnitForm
+from .forms import RegisterUserForm, UnitForm, LoginForm
 from .models import *
 from django.core.paginator import Paginator
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
 from .utils import DataMixin
+from django.db.models import Sum
 
 
 # Create your views here.
@@ -34,9 +37,11 @@ def ShCat(request,cat_id):
 
 def ShUnit(request,unit_id):
     g = Group.objects.all()
+    l = Like.objects.filter(unit_id=unit_id)
+    like = l.count()
     unit = Unit.objects.get(pk=unit_id)
     character = list(unit.character.split(","))
-    return render(request, 'techMarket/Unit.html', {'unit': unit, 'group': g,'character':character})
+    return render(request, 'techMarket/Unit.html', {'unit': unit, 'group': g,'character':character,'like':like})
 
 class register(DataMixin, CreateView):
     form_class = RegisterUserForm
@@ -47,16 +52,24 @@ class register(DataMixin, CreateView):
         context=super().get_context_data(**kwargs)
         return dict(list(context.items()))
 
-class login(DataMixin,LoginView):
-    form_class = AuthenticationForm
-    template_name = 'login.html'
+def login_user(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
 
-    def get_context_data(self, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return dict(list(context.items()))
-
-    def get_success_url(self):
-        return reverse_lazy('techMarket:index')
+            user = authenticate(username=username, password=password)
+            if user and user.is_active:
+                login(request, user)
+                return redirect('login_user:index')
+            else:
+                form.add_error(None, 'неверный логин или пароль')
+                return render(request, 'login.html', {'form': form})
+        else:
+            return render(request, 'login.html', {'form': form})
+    else:
+        return render(request, 'login.html', {'form': LoginForm()})
 
 def AddUnit(request):
     if request.method == 'POST':
@@ -77,7 +90,7 @@ class updunit(UpdateView):
 
 def delunit(request,unit_id):
     if request.user.has_perm('unit.add_Unit'):
-        unit = Unit.objects.filter(pk=unit_id)
+        unit = Unit.objects.get(pk=unit_id)
         try:
             unit.delete()
             return redirect('techMarket:index')
@@ -87,6 +100,7 @@ def delunit(request,unit_id):
     else:
         return reverse_lazy('techMarket:index')
 
+@login_required(login_url='techMarket:login')
 def addBucket(request,unit_id):
     unit = Unit.objects.get(pk=unit_id)
     user = request.user
@@ -96,17 +110,25 @@ def addBucket(request,unit_id):
             b.l += 1
         b.save()
         message = f'{b.unit}добавлен в корзину в колличестве{b.l}'
-        return render(request,'index.html',{'message':message})
+        return redirect('techMarket:index')
     except:
         b = Backet(user=user,unit=unit,l=1)
         b.save()
         message = 'успешно добавлен товар'
-        return render (request,'index.html',{'message':message})
+        return redirect('techMarket:index')
 
+@login_required(login_url='techMarket:login')
 def ShBucket(request):
     user = request.user
     b = Backet.objects.filter(user=user)
-    return render(request,'bucket.html',{'unit':b})
+    price = 0
+    for i in b:
+        if i.l > 1:
+            price = price + int(i.unit.price) * i.l
+        else:
+            price = price + int(i.unit.price)
+
+    return render(request,'bucket.html',{'unit':b,'price':price})
 
 def delBucket(request,bucket_id):
     b = Backet.objects.get(pk=bucket_id)
@@ -120,8 +142,25 @@ def delBucket(request,bucket_id):
 
 
 
+@login_required(login_url='techMarket:login')
+def addLike(request,unit_id):
+    try:
+        l = Like.objects.get(unit_id=unit_id,user=request.user,like=True)
+        l.delete()
+        return redirect(f"/unit/{unit_id}")
+    except:
+        l = Like(unit_id=unit_id,user=request.user,like=True)
+        l.save()
+        return redirect(f"/unit/{unit_id}")
 
 
+@login_required(login_url='techMarket:login')
+def addComment(request,unit_id):
+    b = Unit.objects.get(pk=unit_id)
+    com = request.POST['comment']
+    user_comment = comment(unit=b,text=com,user=request.user)
+    user_comment.save()
+    return redirect(f"/unit/{unit_id}")
 
 
 

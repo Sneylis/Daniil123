@@ -32,3 +32,12 @@ class RegisterUserForm(UserCreationForm):
             'password1': forms.PasswordInput(attrs={'class': 'form-input'}),
             'password2': forms.PasswordInput(attrs={'class': 'form-input'}),
         }
+
+class LoginForm(forms.Form):
+    username = forms.CharField(label=u'Имя пользователя')
+    password = forms.CharField(
+        label=("Пароль"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={"autocomplete": "current-password"}),
+    )
+    next = forms.CharField(widget=forms.HiddenInput(), required=False)
