@@ -36,25 +36,15 @@
         <h1>{{u.title}}</h1>
         <p>Описание<br>{{u.about |truncatewords:30}}</p>
         <h2>{{u.price}}₽</h2>
-        <a href="{%url 'techMarket:ShowUnit' u.id%}">Смотреть</a>
-        <a href="{%url 'techMarket:AddBucket' u.id%}">Добавить в корзину</a>
+        <a href="{%url 'techMarket:ShowUnit' u.id%}">Смотреть |</a>
+        <a href="{%url 'techMarket:AddBucket' u.id%}">Добавить в корзину |</a>
 
-        <a href="{%url 'techMarket:delUnit' u.id%}">удалить</a>
+        <a href="{%url 'techMarket:delUnit' u.id%}">Удалить</a>
         <a href="{%url 'techMarket:updUnit' u.id%}"><img class="updUnit" class="logo" src="{% static 'techMarket/img/upd.png' %}"></a>
     </div>
 </div>
 {%endfor%}
 
-<footer class="pagination">
-    <nav class="paginator">
-        <ul class="paginator">
-            {%for p in page_obj.paginator.page_range%}
-            <li>
-                <a href="?page={{p}}">{{p}}</a>
-            </li>
-            {%endfor%}
-        </ul>
-    </nav>
-</footer>
+
 
 {%endblock%}

@@ -12,7 +12,7 @@
     <ul class="top_bar_list">
         <a href="{%url 'techMarket:index'%}"><img class="logo" src="{% static 'techMarket/img/logo.png' %}"></a>
         <li><a href="{%url 'techMarket:index'%}">Каталог</a></li>
-        <li><a  href="{%url 'techMarket:About'%}">О нас</a></li>           |
+        <li><a  href="{%url 'techMarket:About'%}">О нас</a></li>
 
         {% if perms.unit%}
         <li><a href="{%url 'techMarket:addunit'%}">добавить товар</a></li>
@@ -22,13 +22,13 @@
         <li><a href="{% url 'techMarket:ShBucket' %}">Моя Корзина</a></li>
         {%else%}
         <div class="AuthBTNS">
-                <a class="reg" href="{%url 'techMarket:register'%}">Регистрация</a> <a class="log" href="{%url 'techMarket:login'%}">Войти</a>
+                <a class="reg" href="{%url 'techMarket:register'%}">Регистрация</a> | <a class="log" href="{%url 'techMarket:login'%}">Войти</a>
         </div>
         {%endif%}
     </ul>
 </div>
 
-<div class="main">
+
     <div class="aside">
         {%block aside%}
         {%endblock%}
@@ -38,6 +38,19 @@
         {%block content%}
         {%endblock%}
     </div>
-</div>
+
+
+<footer class="pagination">
+    <nav class="paginator">
+        <ul class="paginator">
+            {%for p in page_obj.paginator.page_range%}
+            <li>
+                <a href="?page={{p}}">{{p}}</a>
+            </li>
+            {%endfor%}
+        </ul>
+    </nav>
+</footer>
+
 </body>
 </html>
