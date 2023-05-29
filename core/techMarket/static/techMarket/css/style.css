@@ -1,9 +1,15 @@
 body{
-    background: #303030;
+    background: #ffefe0;
+}
+a{
+    text-decoration: none;
+}
+a:hover {
+    color:#8ae9ff;
 }
 .top_bar {
     width: 100%;
-    background: #333333;
+    background: #ff7b00;
     list-style-type: none;
     color:#EEEFEF;
     display: inline-block;
@@ -13,6 +19,20 @@ body{
     padding-left: 40px;
 
 }
+.AuthBTNS{
+    margin-top: 10px;
+    float: right;
+    margin-right: 30px;
+}
+.AuthBTNS a{
+    background: #ff7b00;
+    border: 1px solid #ffa047;
+    padding:3px;
+    border-radius: 10px;
+}
+.AuthBTNS a:hover{
+    background: #a14e00;
+}
 
 /*------------------------------------------------top_bar------------------------------------*/
 
@@ -20,7 +40,7 @@ body{
     margin: 0;
     padding: 0;
     position: relative;
-    background-color:#2B2B2C;
+    background-color:#ff7b00;
 }
 
 .aside{
@@ -28,20 +48,22 @@ body{
     left: 0;
     top: 0;
     width: 20%;
-    margin: 0; padding: 0;
-    background: #303030;
+    margin-top: 138px; padding: 0;
+    background: #ff7b00;
+    border-bottom-right-radius: 20px;
 }
 
 .content{
-    position: absolute;
+    margin-right: auto;
+    margin-left: auto;
      right: 0;
     top: 0;
-     width: 80%;
+     width: 41.5%;
      color:#EEEFEF;
-     background: #2B2B2C;
+     background: #ff7b00;
 }
 
-.catalog > li,a,h1,h2{
+.catalog li,a,h1,h2{
     list-style-type: none;
     color:#EEEFEF;
     font-size: 20px;
@@ -52,7 +74,7 @@ body{
     width: 800px;
     display: inline-flex;
     padding-bottom: 30px;
-    border:5px solid #444241;
+    border:5px solid #ffa047;
     margin-right: auto;
 
 }
@@ -89,4 +111,16 @@ body{
     margin-left: 5px;
     border: 2px solid #dbd3bf;
     border-radius: 5px;
+}
+.pagination a{
+    display: flex;
+    color: white;
+    background: #ff7b00;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3px 7px 3px 7px;
+    border-radius: 10px;
+}
+ul{
+    list-style-type: none;
 }
