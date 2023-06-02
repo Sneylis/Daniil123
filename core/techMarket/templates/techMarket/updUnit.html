@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{%load static%}
 
-</body>
-</html>
+
+{% block content %}
+<div class="addUnit">
+<form class='add' action="{% url 'techMarket:updUnit' unit.pk %}" method="post" enctype="multipart/form-data">                 <!--тут нужен дизайн дива, работает тк форма наследуеться, для дизайна полей я сделал тебе Form_label-->
+    {% csrf_token %}
+
+    <div class="div_for_error">{{form.non_field_errors}}</div>
+
+    {% for f in form%}
+    {{f.as_}}
+        <p><label class="form_label" for="{{f.id_for_label}}">{{f.label}}: </label>{{f}}</p>
+        <div class="div_for_error">{{f.errors}}</div>
+    {%endfor%}
+
+    <button type="submit">Добавить</button>
+
+</form>
+</div>
+{% endblock %}

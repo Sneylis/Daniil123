@@ -4,15 +4,24 @@
 {%block title%}Корзина{%endblock%}
 
 {%block content%}
-{%for u in unit %}
 <div>
-    <div><img src="{{u.unit.photo.url}}"></div>
+    <h1>ваша корзина на сумму {{price}}</h1>
+{%for u in unit %}
+<div class="cart">
+    <div class="photo"><img class="photo" src="{{u.unit.photo.url}}"></div>
+
+    <div class="cat_about">
     <p>{{u.unit.title}}</p>
     <p>x{{u.l}}</p>
-    <a href="{%url 'techMarket:ShowUnit' u.unit.pk %}">смотреть в каталоге</a>
-    <a href="{%url 'techMarket:DelBucket' u.id %}">удалить</a>
+    </div>
+
+    <div class="cat_btn">
+    <a class="btn btn_a" href="{%url 'techMarket:ShowUnit' u.unit.pk %}">смотреть в каталоге</a>
+    <a class="btn btn_a" href="{%url 'techMarket:DelBucket' u.id %}">удалить</a>
+    </div>
 </div>
 {%endfor%}
 
-<p>ваша корзина на сумму {{price}}</p>
+
+</div>
 {%endblock%}

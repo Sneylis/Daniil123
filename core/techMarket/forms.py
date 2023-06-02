@@ -2,8 +2,15 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Unit
+from captcha.fields import CaptchaField
+
 
 class UnitForm(forms.ModelForm):
+    title = forms.CharField(label='Наименование')
+    about = forms.CharField(label='Описание')
+    characters = forms.CharField(label='Характеристики')
+    price = forms.IntegerField(label='Цена')
+    photo = forms.ImageField(label='Фото')
     class Meta:
         model = Unit
         fields = ['title','about','character','price','photo','cat']
@@ -20,7 +27,7 @@ class RegisterUserForm(UserCreationForm):
     last_name = forms.CharField(label="Фамилия", widget=forms.TextInput(attrs={'class': 'form-input'}))
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
     password2 = forms.CharField(label='Повтор пароля', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
-
+    captcha = CaptchaField()
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
@@ -40,4 +47,4 @@ class LoginForm(forms.Form):
         strip=False,
         widget=forms.PasswordInput(attrs={"autocomplete": "current-password"}),
     )
-    next = forms.CharField(widget=forms.HiddenInput(), required=False)
+    captcha = CaptchaField()

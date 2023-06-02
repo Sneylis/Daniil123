@@ -5,14 +5,18 @@
 {%block content%}
 
 
-<div class="reglog">
+<div class="register">
+    <h1 class="h1register">Авторизация</h1>
 {% for error in form.non_field_errors %}
-    <span class="error-message">{{ error }}</span>
+    <span class="error-message" style="color:#c90000">{{ error }}</span>
 {% endfor %}
 <form id="login_form" method="post" action="{%url 'techMarket:login' %}">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Войти</button>
+    {%for f in form %}
+    <p><label class="form_label" for="{{f.id_for_label}}">{{f.label}}: </label>{{f}}</p>
+    <div class="div_for_error" style="color:white;">{{f.errors}}</div>
+    {%endfor%}
+    <button class="btn btn_a" type="submit">Войти</button>
 </form>
 </div>
 {%endblock%}

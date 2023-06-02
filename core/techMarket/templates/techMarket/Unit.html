@@ -25,27 +25,29 @@
 
 {%block content%}
 
-<div>
+<div class="ShUnit">
   <div><h1>{{unit.title}}</h1></div>
-  <div><img src="{{unit.photo.url}}"></div>
-    <a href="{%url 'techMarket:AddBucket' unit.id%}">Добавить в корзину</a>
+  <div img_u><img class="img_u" src="{{unit.photo.url}}"></div>
+
   <div>
-    <h2>{{unit.price}}</h2>
+    <p>цена  {{unit.price}} Р</p>
+      <h2>Описание</h2>
     <p>{{unit.about}}</p>
      <p>
     {{ character|join:"\n"}}
       </p>
   </div>
+    <a class="btn btn_a" href="{%url 'techMarket:AddBucket' unit.id%}">Добавить в корзину</a>
 </div>
 
 <hr>
 
 <div class="likes">
     <span>Количество оценок "Нравится": {{like}}</span>
-    <a href="{%url 'techMarket:AddLike' unit.id %}">Нравится!</a>
+    <a href="{%url 'techMarket:AddLike' unit.id %}"><img class="like" src="{%static 'techMarket/img/like.png'%}"></a>
 </div>
 
-<div>
+<div class="comments">
 {%for c in unit.comment_set.all%}
     <hr>
     <h1>{{c.user}}</h1>
@@ -56,11 +58,10 @@
 </div>
 
 <div class="comments">
-
  <span>Оставить комментарий: </span>
       <form action="{% url 'techMarket:commen' unit.id  %}" method="POST">
     {% csrf_token %}
-        <textarea name="comment" ></textarea>
+        <textarea class="comment" name="comment" ></textarea>
     <button type="submit">Оставить комментарий</button>
     </form>
 </div>

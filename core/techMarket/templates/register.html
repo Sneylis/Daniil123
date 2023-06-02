@@ -3,17 +3,22 @@
 
 
 {%block content%}
+<div class="register">
 <h1 class="h1register">Регистрация</h1>
+    <br>
 <form method="post">
     {%csrf_token%}
 
+    {%if f.errors%}
+    <div class="div_for_error">{{f.errors}}</div>
+    {%endif%}
+
     {%for f in form %}
     <p><label class="form_label" for="{{f.id_for_label}}">{{f.label}}: </label>{{f}}</p>
-    <div class="div_for_error">{{f.errors}}</div>
-
+    <div class="div_for_error" style="color:white;">{{f.errors}}</div>
     {%endfor%}
 
-    <button type="submit">Зарегистрироваться</button>
-
+    <button class="btn btn_a"  type="submit">Зарегистрироваться</button>
 </form>
+</div>
 {%endblock%}

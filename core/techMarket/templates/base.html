@@ -2,29 +2,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+   top_bar {
+    background: url({%static 'techMarket/img/top_bar.png'%}) no-repeat;
+   }
+  </style>
+
     <meta charset="UTF-8">
     <title>{%block title%}{%endblock%}</title>
     <link rel="stylesheet" href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'techMarket/css/style.css' %}">
 </head>
 <body>
-<div class="top_bar">
-    <ul class="top_bar_list">
+<div class="div_body">
+<div class="top_bar" >
+    <ul class="top_bar_list" >
         <a href="{%url 'techMarket:index'%}"><img class="logo" src="{% static 'techMarket/img/logo.png' %}"></a>
-        <li><a href="{%url 'techMarket:index'%}">Каталог</a></li>
-        <li><a  href="{%url 'techMarket:About'%}">О нас</a></li>
+        <li><a class="btn btn_a" href="{%url 'techMarket:index'%}">Каталог</a></li>
+        <li><a class="btn btn_a" href="{%url 'techMarket:About'%}">О нас</a></li>
 
         {% if perms.unit%}
-        <li><a href="{%url 'techMarket:addunit'%}">добавить товар</a></li>
+        <li><a class="btn btn_a" href="{%url 'techMarket:addunit'%}">добавить товар</a></li>
+        {%endif%}
+        {% if user.is_authenticated%}
+            <li><a  class="btn btn_a" href="{% url 'techMarket:ShBucket' %}">Моя Корзина</a></li>
         {%endif%}
 
+    <div class="AuthBTNS">
+
         {% if user.is_authenticated%}
-        <li><a href="{% url 'techMarket:ShBucket' %}">Моя Корзина</a></li>
+            {{request.user}}
+            <a class="btn btn_a" href="{% url 'techMarket:exit' %}">выйти</a>
         {%else%}
-        <div class="AuthBTNS">
-                <a class="reg" href="{%url 'techMarket:register'%}">Регистрация</a> | <a class="log" href="{%url 'techMarket:login'%}">Войти</a>
-        </div>
+            <a class="btn btn_a" href="{%url 'techMarket:register'%}">Регистрация</a>
+            <a class="btn btn_a" href="{%url 'techMarket:login'%}">Войти</a>
         {%endif%}
+    </div>
     </ul>
 </div>
 
@@ -37,20 +50,21 @@
     <div class="content">
         {%block content%}
         {%endblock%}
+
+
+
+    <footer class="pagination">
+        <nav class="paginator">
+            <ul class="paginator">
+                {%for p in page_obj.paginator.page_range%}
+                <li>
+                    <a class="btn btn_a" href="?page={{p}}">{{p}}</a>
+                </li>
+                {%endfor%}
+            </ul>
+        </nav>
+    </footer>
     </div>
-
-
-<footer class="pagination">
-    <nav class="paginator">
-        <ul class="paginator">
-            {%for p in page_obj.paginator.page_range%}
-            <li>
-                <a href="?page={{p}}">{{p}}</a>
-            </li>
-            {%endfor%}
-        </ul>
-    </nav>
-</footer>
-
+</div>
 </body>
 </html>
