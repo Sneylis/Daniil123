@@ -123,15 +123,13 @@ div_body{
 
 .u_place{
     width:920px;
-    height:1000px;
-    display:flex-inline;
-    float:clearfix;
+    height:775px;
 
 
 }
 
 .unit{
-    height:350px;
+	   height:380px;
     width: 300px;
     display:block;
     padding: 3px;
@@ -139,7 +137,7 @@ div_body{
     border:5px solid #3C4554;
     background:#2a303a;
     float: left;
-}
+ }
 
 #id_captcha_1{
     width:130px;
