@@ -61,7 +61,7 @@
  <span>Оставить комментарий: </span>
       <form action="{% url 'techMarket:commen' unit.id  %}" method="POST">
     {% csrf_token %}
-        <textarea class="comment" name="comment" ></textarea>
+        <textarea required="True" class="comment" name="comment" ></textarea>
     <button type="submit">Оставить комментарий</button>
     </form>
 </div>
